@@ -1,0 +1,4 @@
+rootProject.name = 'TelegramPKGH'
+
+include 'pkghbot-api', 'pkghbot-core', 'pkghbot-bot'
+

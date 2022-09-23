@@ -1,6 +1,14 @@
 .gradle
 /build/
 
+.idea
+
+PKGHBotFiles
+
+pkghbot-api/build
+pkghbot-core/build
+pkghbot-bot/build
+
 # Ignore Gradle GUI config
 gradle-app.setting
 

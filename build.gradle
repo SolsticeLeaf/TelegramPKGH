@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'kiinse.programs.telegram.pkghbot'
+version '4.0.0-beta.1'
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":pkghbot-api")
+    implementation project(":pkghbot-core")
+    implementation project(":pkghbot-bot")
+}
+
+tasks.withType(Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"] = "kiinse.programs.telegram.pkghbot.bot.Main"
+    }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
