@@ -52,15 +52,15 @@ public class UsersCommand extends ICommand {
                 user,
                 "▬▬▬▬ Чаты ▬▬▬▬\n→Общее количество чатов: "
                 + UserQuery.countChats() +
-                "\n→Бота заблокировали: "
+                "\n → Бота заблокировали: "
                 + UserQuery.countBlockedChats() +
-                "\n→Бота используют: "
+                "\n → Бота используют: "
                 + UserQuery.countActiveChats() +
-                "\n→Количество бесед: "
+                "\n → Количество бесед: "
                 + UserQuery.countGroupChats() +
-                "\n→Включена вечерняя рассылка: "
+                "\n → Включена вечерняя рассылка: "
                 + UserQuery.countAutoMailing() +
-                "\n→Включена рассылка пар: "
+                "\n → Включена рассылка пар: "
                 + UserQuery.countLessonMailing());
     }
 }

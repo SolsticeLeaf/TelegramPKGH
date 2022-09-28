@@ -124,38 +124,38 @@ public class UserQuery {
 
     public static long countActiveChats() {
         var query = new Document();
-        query.put("status", UserStatus.ACTIVE);
-        return collection.countDocuments(query);
+        query.put("status", UserStatus.ACTIVE.toString());
+        return count(query);
     }
 
     public static long countBlockedChats() {
         var query = new Document();
-        query.put("status", UserStatus.BOT_BLOCKED);
-        return collection.countDocuments(query);
+        query.put("status", UserStatus.BOT_BLOCKED.toString());
+        return count(query);
     }
 
     public static long countGroupChats() {
         var query = new Document();
         query.put("isGroup", true);
-        return collection.countDocuments(query);
+        return count(query);
     }
 
     public static long countAdmins() {
         var query = new Document();
         query.put("isAdmin", true);
-        return collection.countDocuments(query);
+        return count(query);
     }
 
     public static long countAutoMailing() {
         var query = new Document();
         query.put("isMailing", true);
-        return collection.countDocuments(query);
+        return count(query);
     }
 
     public static long countLessonMailing() {
         var query = new Document();
         query.put("isLessonMailing", true);
-        return collection.countDocuments(query);
+        return count(query);
     }
 
     public static @NotNull Set<User> getAdmins() {
@@ -174,20 +174,28 @@ public class UserQuery {
 
     public static @NotNull Set<User> getActiveUsers() {
         var query = new Document();
-        query.put("status", UserStatus.ACTIVE);
-        return parseUsersSet(query);
-    }
-
-    public static @NotNull Set<User> getBlockedUsers() {
-        var query = new Document();
-        query.put("status", UserStatus.BANNED);
+        query.put("status", UserStatus.ACTIVE.toString());
         return parseUsersSet(query);
     }
 
     public static @NotNull Set<User> getBannedUsers() {
         var query = new Document();
-        query.put("status", UserStatus.BOT_BLOCKED);
+        query.put("status", UserStatus.BANNED.toString());
         return parseUsersSet(query);
+    }
+
+    public static @NotNull Set<User> getBlockedUsers() {
+        var query = new Document();
+        query.put("status", UserStatus.BOT_BLOCKED.toString());
+        return parseUsersSet(query);
+    }
+
+    private static long count(@NotNull Document document) {
+        try {
+            return collection.countDocuments(document);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     private static @NotNull Set<User> parseUsersSet(@NotNull Document query) {

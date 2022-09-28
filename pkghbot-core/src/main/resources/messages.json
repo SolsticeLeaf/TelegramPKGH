@@ -9,6 +9,7 @@
   "groupnotfoundmsg": "❌ → Группы <b>GROUP</b> не существует!\nПопробуйте снова ッ",
   "errormsg": "❌ Произошла ошибка!",
   "emptymessagemsg": "❌ Ваше сообщение пустое.",
+  "emptyusermsg": "❌ Вы не указали пользователя.",
   "usernotfoundmsg": "❌ Данного пользователя 'USER' нет в базе данных бота.",
   "adminremovedmsg": "✅ Администратор: @USER успешно удалён.",
   "adminaddedmsg": "✅ Администратор: @USER успешно добавлен.",

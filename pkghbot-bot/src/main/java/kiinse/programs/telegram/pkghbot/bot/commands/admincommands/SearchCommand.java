@@ -42,11 +42,15 @@ public class SearchCommand extends ICommand {
     @Override
     public void process(@NotNull Update rawUpdate, @NotNull String[] args, @NotNull User user) {
         if (args.length > 0) {
-            var searchUser = UserQuery.getUser(args[0]);
+            var searchUser = UserQuery.getUser(args[0].replace("@", ""));
             BotUtils.sendMessage(
                     user,
                     searchUser != null ? searchUser.toString()
                             : Messages.getText(Messages.Message.USERNOTFOUNDMSG).replace("USER", args[0]));
+        } else {
+            BotUtils.sendMessage(
+                    user,
+                    Messages.getText(Messages.Message.EMPTYUSERMSG));
         }
     }
 }

@@ -64,6 +64,7 @@ public class Messages {
         BANTOADMINMSG,
         YOUBANNEDMSG,
         SPAMALERTMSG,
+        EMPTYUSERMSG,
         GROUPSAVEDMSG,
         GROUPNOTFOUNDMSG,
         ERRORMSG,
