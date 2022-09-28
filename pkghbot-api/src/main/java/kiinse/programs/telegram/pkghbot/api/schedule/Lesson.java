@@ -27,56 +27,24 @@ package kiinse.programs.telegram.pkghbot.api.schedule;
 import kiinse.programs.telegram.pkghbot.api.schedule.enums.LessonNumber;
 import kiinse.programs.telegram.pkghbot.api.schedule.enums.Weekday;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 
-import java.util.Objects;
+public interface Lesson {
 
-public abstract class Lesson {
+    boolean hasLesson();
 
-    private final JSONArray data;
-    private final Weekday weekday;
-    private final LessonNumber number;
+    boolean hasNum();
 
-    protected Lesson(@NotNull JSONArray data, @NotNull Weekday weekday, @NotNull LessonNumber number) {
-        this.data = data;
-        this.weekday = weekday;
-        this.number = number;
-    }
+    boolean hasDen();
 
-    public boolean hasLesson() {
-        return hasNum() || hasDen();
-    }
+    boolean isDuplicated();
 
-    public boolean hasNum() {
-        return getNum().getSubject() != null;
-    }
+    @NotNull String getTime();
 
-    public boolean hasDen() {
-        return getDen().getSubject() != null;
-    }
+    @NotNull LessonNumber getNumber();
 
-    public boolean isDuplicated() {
-        return Objects.equals(getNum().getSubject(), getDen().getSubject());
-    }
+    @NotNull Weekday getDay();
 
-    public @NotNull String getTime() {
-        var time = getNum().getTime();
-        return time != null ? time : Objects.requireNonNull(getDen().getTime());
-    }
+    @NotNull NumDenLesson getNum();
 
-    public @NotNull LessonNumber getNumber() {
-        return number;
-    }
-
-    public @NotNull Weekday getDay() {
-        return weekday;
-    }
-
-    public @NotNull NumLesson getNum() {
-        return new NumLesson(data.getJSONObject(0)) {};
-    }
-
-    public @NotNull DenLesson getDen() {
-        return new DenLesson(data.getJSONObject(1)) {};
-    }
+    @NotNull NumDenLesson getDen();
 }

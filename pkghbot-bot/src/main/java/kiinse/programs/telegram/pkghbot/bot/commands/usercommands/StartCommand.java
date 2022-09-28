@@ -52,7 +52,7 @@ public class StartCommand extends ICommand {
         BotUtils.sendMessage(
                 user,
                 String.format(Text.getText(isGroupMessage, Text.TextName.START), rawUpdate.getMessage().getFrom().getFirstName()),
-                isGroupMessage ? null : KeyboardsFactory.Keyboard(KeyboardsFactory.getButtonRow("Расписание📰", "Предложить пост📃"),
+                isGroupMessage ? null : KeyboardsFactory.Keyboard(KeyboardsFactory.getButtonRow("Расписание📰"),
                                                                   KeyboardsFactory.getButtonRow("Настройки⚙")));
     }
 }

@@ -73,8 +73,7 @@ public class CommandsManager {
         registerCommand(new AdminSettingsCommand());
         registerCommand(new AdminsCommand());
         registerCommand(new EveningScheduleCommand());
-        registerCommand(new SendPostCommand());
-        registerCommand(new SendPostHelpCommand());
+        registerCommand(new SearchCommand());
     }
 
     /**

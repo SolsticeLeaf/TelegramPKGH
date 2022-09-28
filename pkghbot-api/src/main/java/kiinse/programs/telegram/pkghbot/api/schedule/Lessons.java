@@ -27,33 +27,14 @@ package kiinse.programs.telegram.pkghbot.api.schedule;
 import kiinse.programs.telegram.pkghbot.api.schedule.enums.LessonNumber;
 import kiinse.programs.telegram.pkghbot.api.schedule.enums.Weekday;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 
-public abstract class Lessons {
+public interface Lessons {
 
-    private final JSONArray data;
-    private final Weekday weekday;
-    private final String name;
+    boolean hasLesson(@NotNull LessonNumber number);
 
-    protected Lessons(@NotNull JSONArray data, @NotNull Weekday weekday, @NotNull String name) {
-        this.data = data;
-        this.weekday = weekday;
-        this.name = name;
-    }
+    @NotNull Weekday getDay();
 
-    public boolean hasLesson(@NotNull LessonNumber number) {
-        return getLesson(number).hasLesson();
-    }
+    @NotNull Lesson getLesson(@NotNull LessonNumber number);
 
-    public @NotNull Weekday getDay() {
-        return weekday;
-    }
-
-    public @NotNull Lesson getLesson(@NotNull LessonNumber number) {
-        return new Lesson(data.getJSONArray(number.get()), weekday, number) {};
-    }
-
-    public @NotNull String getName() {
-        return name;
-    }
+    @NotNull String getName();
 }

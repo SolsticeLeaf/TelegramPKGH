@@ -22,34 +22,20 @@
  * SOFTWARE.
  */
 
-package kiinse.programs.telegram.pkghbot.bot.commands.admincommands;
+package kiinse.programs.telegram.pkghbot.api.schedule;
 
-import kiinse.programs.telegram.pkghbot.api.commands.Command;
-import kiinse.programs.telegram.pkghbot.api.commands.ICommand;
-import kiinse.programs.telegram.pkghbot.api.data.User;
-import kiinse.programs.telegram.pkghbot.bot.schedulers.EveningSchedule;
-import kiinse.programs.telegram.pkghbot.bot.utilities.BotUtils;
 import org.jetbrains.annotations.NotNull;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.jetbrains.annotations.Nullable;
 
-/**
- * Класс команды для ручной отправки рассылки
- *
- * @author kiinse
- * @version 3.1.13
- * @since 3.1.0
- */
-@Command(
-        name = "evening_manual",
-        isAdmin = true
-)
-public class EveningScheduleCommand extends ICommand {
+public interface NumDenLesson {
 
-    @Override
-    public void process(@NotNull Update rawUpdate, @NotNull String[] args, @NotNull User user) {
-        new EveningSchedule().sendMailing();
-        BotUtils.sendMessage(
-                user,
-                "Рассылка отправлена!");
-    }
+    @Nullable String getSubject();
+
+    @Nullable String getCabinet();
+
+    @Nullable String getTime();
+
+    @NotNull StringBuilder getFormattedLesson();
+
+    @NotNull StringBuilder getActiveFormattedLesson();
 }

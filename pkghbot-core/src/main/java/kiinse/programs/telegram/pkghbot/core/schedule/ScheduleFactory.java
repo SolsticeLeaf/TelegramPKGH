@@ -26,6 +26,7 @@ package kiinse.programs.telegram.pkghbot.core.schedule;
 
 import kiinse.programs.telegram.pkghbot.api.schedule.Group;
 import kiinse.programs.telegram.pkghbot.core.data.Config;
+import kiinse.programs.telegram.pkghbot.core.schedule.data.BotGroup;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
@@ -61,7 +62,7 @@ public class ScheduleFactory {
     public static @Nullable Group getGroup(@NotNull String group) {
         try {
             if (hasGroup(group)) {
-                return new Group(new JSONObject(get("schedule/" + URLEncoder.encode(group, StandardCharsets.UTF_8))), group) {};
+                return new BotGroup(new JSONObject(get("schedule/" + URLEncoder.encode(group, StandardCharsets.UTF_8))), group) {};
             }
         } catch (Exception e) {
             return null;

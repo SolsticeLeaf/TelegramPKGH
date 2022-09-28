@@ -22,34 +22,44 @@
  * SOFTWARE.
  */
 
-package kiinse.programs.telegram.pkghbot.bot.commands.admincommands;
+package kiinse.programs.telegram.pkghbot.core.schedule.data;
 
-import kiinse.programs.telegram.pkghbot.api.commands.Command;
-import kiinse.programs.telegram.pkghbot.api.commands.ICommand;
-import kiinse.programs.telegram.pkghbot.api.data.User;
-import kiinse.programs.telegram.pkghbot.bot.schedulers.EveningSchedule;
-import kiinse.programs.telegram.pkghbot.bot.utilities.BotUtils;
+import kiinse.programs.telegram.pkghbot.api.schedule.Lesson;
+import kiinse.programs.telegram.pkghbot.api.schedule.Lessons;
+import kiinse.programs.telegram.pkghbot.api.schedule.enums.LessonNumber;
+import kiinse.programs.telegram.pkghbot.api.schedule.enums.Weekday;
 import org.jetbrains.annotations.NotNull;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.json.JSONArray;
 
-/**
- * Класс команды для ручной отправки рассылки
- *
- * @author kiinse
- * @version 3.1.13
- * @since 3.1.0
- */
-@Command(
-        name = "evening_manual",
-        isAdmin = true
-)
-public class EveningScheduleCommand extends ICommand {
+public class BotLessons implements Lessons {
+
+    private final JSONArray data;
+    private final Weekday weekday;
+    private final String name;
+
+    protected BotLessons(@NotNull JSONArray data, @NotNull Weekday weekday, @NotNull String name) {
+        this.data = data;
+        this.weekday = weekday;
+        this.name = name;
+    }
 
     @Override
-    public void process(@NotNull Update rawUpdate, @NotNull String[] args, @NotNull User user) {
-        new EveningSchedule().sendMailing();
-        BotUtils.sendMessage(
-                user,
-                "Рассылка отправлена!");
+    public boolean hasLesson(@NotNull LessonNumber number) {
+        return getLesson(number).hasLesson();
+    }
+
+    @Override
+    public @NotNull Weekday getDay() {
+        return weekday;
+    }
+
+    @Override
+    public @NotNull Lesson getLesson(@NotNull LessonNumber number) {
+        return new BotLesson(data.getJSONArray(number.get()), weekday, number) {};
+    }
+
+    @Override
+    public @NotNull String getName() {
+        return name;
     }
 }

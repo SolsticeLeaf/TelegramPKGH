@@ -26,23 +26,9 @@ package kiinse.programs.telegram.pkghbot.api.schedule;
 
 import kiinse.programs.telegram.pkghbot.api.schedule.enums.Weekday;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
-public abstract class Group {
+public interface Group {
+    @NotNull Lessons getLessons(@NotNull Weekday weekday);
 
-    private final JSONObject data;
-    private final String name;
-
-    protected Group(@NotNull JSONObject data, @NotNull String name) {
-        this.data = data;
-        this.name = name;
-    }
-
-    public @NotNull Lessons getLessons(@NotNull Weekday weekday) {
-        return new Lessons(data.getJSONArray(weekday.getRussian()), weekday, name) {};
-    }
-
-    public @NotNull String getName() {
-        return name;
-    }
+    @NotNull String getName();
 }

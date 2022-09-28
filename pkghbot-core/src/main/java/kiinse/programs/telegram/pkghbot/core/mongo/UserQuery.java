@@ -158,19 +158,6 @@ public class UserQuery {
         return collection.countDocuments(query);
     }
 
-    public static @NotNull StringBuilder adminList() {
-        var msg = new StringBuilder("▬▬▬ Админы ▬▬▬");
-        for (var user : getAdmins()) {
-            msg.append("\n")
-               .append(user.getChatId())
-               .append(" | ")
-               .append(user.getGroup())
-               .append(" | ")
-               .append(user.getName());
-        }
-        return msg;
-    }
-
     public static @NotNull Set<User> getAdmins() {
         var query = new Document();
         query.put("isAdmin", true);

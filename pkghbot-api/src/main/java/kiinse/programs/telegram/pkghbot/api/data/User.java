@@ -71,4 +71,6 @@ public interface User {
 
     @NotNull User upload();
 
+    @NotNull String toString();
+
 }

@@ -22,20 +22,22 @@
  * SOFTWARE.
  */
 
-package kiinse.programs.telegram.pkghbot.api.schedule;
+package kiinse.programs.telegram.pkghbot.core.schedule.data;
 
+import kiinse.programs.telegram.pkghbot.api.schedule.NumDenLesson;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
-public abstract class NumLesson {
+public class BotLessonNumDen implements NumDenLesson {
 
     private final JSONObject data;
 
-    protected NumLesson(@NotNull JSONObject data) {
+    protected BotLessonNumDen(@NotNull JSONObject data) {
         this.data = data;
     }
 
+    @Override
     public @Nullable String getSubject() {
         if (data.has("name")) {
             var name = data.getString("name");
@@ -46,6 +48,7 @@ public abstract class NumLesson {
         return null;
     }
 
+    @Override
     public @Nullable String getCabinet() {
         if (data.has("cabinet")) {
             var cabinet = data.getString("cabinet");
@@ -56,6 +59,7 @@ public abstract class NumLesson {
         return null;
     }
 
+    @Override
     public @Nullable String getTime() {
         if (data.has("time")) {
             return data.getString("time");
@@ -63,6 +67,7 @@ public abstract class NumLesson {
         return null;
     }
 
+    @Override
     public @NotNull StringBuilder getFormattedLesson() {
         if (getSubject() != null && getCabinet() != null) {
             return new StringBuilder().append("<b>Предмет:</b> ").append(getSubject()).append("\n").append(
@@ -72,6 +77,7 @@ public abstract class NumLesson {
         }
     }
 
+    @Override
     public @NotNull StringBuilder getActiveFormattedLesson() {
         if (getSubject() != null && getCabinet() != null) {
             return new StringBuilder().append(" → <b>Предмет:</b> ").append(getSubject()).append("\n").append(

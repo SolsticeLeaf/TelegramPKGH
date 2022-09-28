@@ -52,6 +52,19 @@ public class AdminsCommand extends ICommand {
     public void process(@NotNull Update rawUpdate, @NotNull String[] args, @NotNull User user) {
         BotUtils.sendMessage(
                 user,
-                UserQuery.adminList().toString());
+                getAdminsList().toString());
+    }
+
+    private @NotNull StringBuilder getAdminsList() {
+        var msg = new StringBuilder("▬▬▬ Админы ▬▬▬");
+        for (var admin : UserQuery.getAdmins()) {
+            msg.append("\n")
+               .append(admin.getChatId())
+               .append(" | ")
+               .append(admin.getGroup())
+               .append(" | ")
+               .append(admin.getName());
+        }
+        return msg;
     }
 }

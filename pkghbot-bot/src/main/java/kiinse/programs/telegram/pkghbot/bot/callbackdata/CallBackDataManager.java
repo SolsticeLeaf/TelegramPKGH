@@ -36,8 +36,6 @@ import kiinse.programs.telegram.pkghbot.bot.callbackdata.messages.CancelPrivateM
 import kiinse.programs.telegram.pkghbot.bot.callbackdata.messages.SendAllCallBack;
 import kiinse.programs.telegram.pkghbot.bot.callbackdata.messages.SendPrivateMessageCallBack;
 import kiinse.programs.telegram.pkghbot.bot.callbackdata.posts.AcceptPostCallBack;
-import kiinse.programs.telegram.pkghbot.bot.callbackdata.posts.AddPostCallBack;
-import kiinse.programs.telegram.pkghbot.bot.callbackdata.posts.CancelPostCallBack;
 import kiinse.programs.telegram.pkghbot.bot.callbackdata.posts.RejectPostCallBack;
 import kiinse.programs.telegram.pkghbot.bot.callbackdata.schedule.GetScheduleCallBack;
 import kiinse.programs.telegram.pkghbot.bot.callbackdata.usersettings.*;
@@ -81,8 +79,6 @@ public class CallBackDataManager {
         registerCallBackData(new SendAllCallBack());
         registerCallBackData(new SendPrivateMessageCallBack());
         registerCallBackData(new AcceptPostCallBack());
-        registerCallBackData(new AddPostCallBack());
-        registerCallBackData(new CancelPostCallBack());
         registerCallBackData(new RejectPostCallBack());
         registerCallBackData(new GetScheduleCallBack());
         registerCallBackData(new AddGroupCallBack());

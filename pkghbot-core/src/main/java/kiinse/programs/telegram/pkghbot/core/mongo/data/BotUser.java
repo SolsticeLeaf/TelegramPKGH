@@ -171,4 +171,18 @@ public class BotUser implements User {
     public @NotNull User upload() {
         return UserQuery.updateUser(this);
     }
+
+    @Override
+    public @NotNull String toString() {
+        return "▬▬▬ <b>" + getName() + "</b> ▬▬▬\n" +
+               " → <b>Чат:</b> " + getChatId() + "\n" +
+               " → <b>Группа:</b> " + getGroup() + "\n" +
+               " → <b>Статус:</b> " + getStatus() + "\n" +
+               " → <b>Админ:</b> " + isAdmin() + "\n" +
+               " → <b>Рассылка:</b> " + isMailing() + "\n" +
+               " → <b>Рассылка пар:</b> " + isLessonMailing() + "\n" +
+               " → <b>Это группа:</b> " + isGroup() + "\n" +
+               " → <b>Адм. уведомления:</b> " + isAdminMailing() + "\n" +
+               " → <b>Регистрация:</b> " + getRegistrationDate();
+    }
 }
