@@ -127,4 +127,12 @@ public class BotMessage implements Message {
     public @NotNull Message upload() {
         return MessageQuery.updateMessage(this);
     }
+
+    @Override
+    public @NotNull String toString() {
+        return (type == MessageType.ALL ?
+                new StringBuilder("▬▬▬ Оповещение ▬▬▬") : new StringBuilder("▬▬▬ Сообщение ▬▬▬"))
+                .append("\n")
+                .append(getText()).toString();
+    }
 }

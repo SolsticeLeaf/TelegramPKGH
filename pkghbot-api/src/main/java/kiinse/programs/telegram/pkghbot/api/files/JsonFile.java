@@ -36,11 +36,11 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class JsonFile extends FilesManager {
+public abstract class JsonFile extends FilesManager {
 
     private final File file;
 
-    public JsonFile(@NotNull FilesKeys fileName) {
+    protected JsonFile(@NotNull FilesKeys fileName) {
         if (isFileNotExists(fileName)) {
             copyFile(fileName);
         }
@@ -54,7 +54,7 @@ public class JsonFile extends FilesManager {
                 return new JSONObject();
             }
             var json = new JSONObject(Files.readString(Paths.get(file.getAbsolutePath())));
-            LoggerUtils.getLogger().info("File '&b" + file.getName() + "&a' loaded");
+            LoggerUtils.getLogger().info("File '{}' loaded", file.getName());
             return json;
         } catch (IOException e) {
             throw new IOException(e);
@@ -63,11 +63,11 @@ public class JsonFile extends FilesManager {
 
     public void saveJsonToFile(@NotNull JSONObject json) throws IOException {
         if (!file.exists() && file.createNewFile()) {
-            LoggerUtils.getLogger().info("File '&b" + file.getName() + "&a' created");
+            LoggerUtils.getLogger().info("File '{}' created", file.getName());
         }
         var lines = List.of(json.toString());
         Files.write(Paths.get(file.getAbsolutePath()), lines, StandardCharsets.UTF_8);
-        LoggerUtils.getLogger().info("File '&b" + file.getName() + "&a' saved");
+        LoggerUtils.getLogger().info("File '{}' saved", file.getName());
     }
 
 }

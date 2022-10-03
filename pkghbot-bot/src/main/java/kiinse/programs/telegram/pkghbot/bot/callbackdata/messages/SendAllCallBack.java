@@ -72,7 +72,7 @@ public class SendAllCallBack extends ICallBackData {
 
         message.setStatus(MessageStatus.SENT).upload();
 
-        sendMessageToAll(message.getText(), user, messageId);
+        sendMessageToAll(message.toString());
 
         BotUtils.editMessageText(
                 user,
@@ -80,11 +80,9 @@ public class SendAllCallBack extends ICallBackData {
                 TextUtils.emojis.SUCCESS.getValue() + "Оповещение отправлено!\n Текст: " + message.getText());
     }
 
-    public void sendMessageToAll(@NotNull String msg, @NotNull User chat, int messageId) {
+    public void sendMessageToAll(@NotNull String msg) {
         for (var user : UserQuery.getActiveUsers()) {
-            new Thread(() -> BotUtils.sendMessage(
-                    user,
-                    "▬▬▬ Оповещение ▬▬▬\n" + msg)).start();
+            new Thread(() -> BotUtils.sendMessage(user, msg)).start();
         }
     }
 }

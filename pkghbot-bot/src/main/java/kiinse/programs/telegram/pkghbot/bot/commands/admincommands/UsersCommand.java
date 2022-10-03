@@ -50,7 +50,8 @@ public class UsersCommand extends ICommand {
     public void process(@NotNull Update rawUpdate, @NotNull String[] args, @NotNull User user) {
         BotUtils.sendMessage(
                 user,
-                "▬▬▬▬ Чаты ▬▬▬▬\n→Общее количество чатов: "
+                "▬▬▬▬ Чаты ▬▬▬▬" +
+                "\n → Общее количество чатов: "
                 + UserQuery.countChats() +
                 "\n → Бота заблокировали: "
                 + UserQuery.countBlockedChats() +

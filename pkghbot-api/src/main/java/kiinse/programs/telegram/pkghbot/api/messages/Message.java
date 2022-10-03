@@ -57,4 +57,6 @@ public interface Message {
     @NotNull Message setCreationDate(@NotNull String creationDate);
 
     @NotNull Message upload();
+
+    @NotNull String toString();
 }
