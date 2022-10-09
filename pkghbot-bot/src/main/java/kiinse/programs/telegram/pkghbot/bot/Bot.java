@@ -81,9 +81,8 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private void callBackExecute(@NotNull Update rawUpdate, @Nullable User user) {
-        if (user != null && user.getStatus() == UserStatus.ACTIVE) {
+        if (user != null && user.getStatus() == UserStatus.ACTIVE)
             callBackDataManager.process(rawUpdate);
-        }
     }
 
     private void commandExecute(@NotNull Update rawUpdate, @Nullable User user, @NotNull Long chat) {

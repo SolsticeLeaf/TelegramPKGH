@@ -54,9 +54,7 @@ public class PostQuery {
     }
 
     private static @Nullable Post parsePostResult(@Nullable Document result) {
-        if (result == null || result.keySet().size() < 3) {
-            return null;
-        }
+        if (result == null || result.keySet().size() < 3) return null;
         return new BotPost(UUID.fromString(String.valueOf(result.get("_id"))))
                 .setUser(Objects.requireNonNull(UserQuery.getUser(Long.parseLong(String.valueOf(result.get("user"))))))
                 .setText(String.valueOf(result.get("text")))

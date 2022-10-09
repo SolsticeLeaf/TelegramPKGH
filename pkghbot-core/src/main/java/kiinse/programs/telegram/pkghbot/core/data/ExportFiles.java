@@ -46,10 +46,8 @@ public class ExportFiles {
      * @return Возвращает InputStream указанного файла
      */
     public static InputStream accessFile(String resource) {
-        InputStream input = ExportFiles.class.getResourceAsStream(File.separator + "resources" + File.separator + resource);
-        if (input == null) {
-            input = ExportFiles.class.getClassLoader().getResourceAsStream(resource);
-        }
+        var input = ExportFiles.class.getResourceAsStream(File.separator + "resources" + File.separator + resource);
+        if (input == null) input = ExportFiles.class.getClassLoader().getResourceAsStream(resource);
         return input;
     }
 
@@ -61,9 +59,7 @@ public class ExportFiles {
      * @throws IOException Ловит ошибки при невозможности получения доступа к файлам.
      */
     private static void copyFile(InputStream sourceFile, File destFile) throws IOException {
-        if (!destFile.exists()) {
-            FileUtils.copyInputStreamToFile(sourceFile, destFile);
-        }
+        if (!destFile.exists()) FileUtils.copyInputStreamToFile(sourceFile, destFile);
     }
 
     /**

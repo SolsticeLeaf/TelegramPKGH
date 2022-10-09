@@ -51,9 +51,7 @@ public class Config {
         boolean copy = FileManager.copyFile(FileManager.accessFile("config.properties"),
                                             FilesPathes.getFile(FilesPathes.files.CONFIG,
                                                                 FilesPathes.types.PROPERTIES));
-        if (copy) {
-            throw new IllegalStateException("A new configuration file has been created. Please enter your data into it.");
-        }
+        if (copy) throw new IllegalStateException("A new configuration file has been created. Please enter your data into it.");
     }
 
     /**
@@ -82,9 +80,7 @@ public class Config {
      */
     public static boolean getBoolean(@NotNull String key) {
         var property = getProperty(key).toLowerCase();
-        if (property.isBlank()) {
-            return false;
-        }
+        if (property.isBlank()) return false;
         return !property.equalsIgnoreCase("null") && !property.equalsIgnoreCase("false");
     }
 

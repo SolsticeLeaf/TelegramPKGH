@@ -10,12 +10,27 @@ targetCompatibility = 17
 
 repositories {
     mavenCentral()
+
+    maven {
+        url = "https://repo.zalupario.ru/repository/maven-releases/"
+
+        credentials {
+            username = 'kiinse'
+            password = 'eMwvEsvQ9ehXeM93Lfst'
+        }
+
+        mavenContent {
+            releasesOnly()
+        }
+    }
 }
 
 dependencies {
     implementation project(":pkghbot-api")
     implementation project(":pkghbot-core")
     implementation project(":pkghbot-bot")
+
+    implementation 'xyz.winston:expermiental-parser:1.0.0-RELEASE'
 }
 
 tasks.withType(Jar) {

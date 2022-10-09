@@ -56,7 +56,8 @@ public class InitializeClasses {
             exportFiles();
             loadSentry();
             loadSQL();
-            startTimers();
+            // startTimers();
+            // TODO: Вернуть
             loadBot();
             System.out.println(ColorsUtils.color(ColorsUtils.color.GREEN, "Запущено!!!!!!!!!"));
         } catch (Exception e) {

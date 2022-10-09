@@ -61,9 +61,8 @@ public class ScheduleFactory {
 
     public static @Nullable Group getGroup(@NotNull String group) {
         try {
-            if (hasGroup(group)) {
-                return new BotGroup(new JSONObject(get("schedule/" + URLEncoder.encode(group, StandardCharsets.UTF_8))), group) {};
-            }
+            if (hasGroup(group)) return new BotGroup(new JSONObject(
+                    get("schedule/" + URLEncoder.encode(group, StandardCharsets.UTF_8))), group) {};
         } catch (Exception e) {
             return null;
         }

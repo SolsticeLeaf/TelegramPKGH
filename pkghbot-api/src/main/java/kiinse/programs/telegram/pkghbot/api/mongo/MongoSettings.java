@@ -45,9 +45,7 @@ public class MongoSettings {
     }
 
     public void setHost(@NotNull String sqlHost) throws IllegalArgumentException {
-        if (sqlHost.isBlank()) {
-            throw new IllegalArgumentException("Host is empty");
-        }
+        if (sqlHost.isBlank()) throw new IllegalArgumentException("Host is empty");
         this.host = sqlHost;
     }
 
@@ -56,9 +54,7 @@ public class MongoSettings {
     }
 
     public void setPort(@NotNull String sqlPort) throws IllegalArgumentException {
-        if (sqlPort.isBlank()) {
-            throw new IllegalArgumentException("Port is empty");
-        }
+        if (sqlPort.isBlank()) throw new IllegalArgumentException("Port is empty");
         this.port = sqlPort;
     }
 
@@ -67,9 +63,7 @@ public class MongoSettings {
     }
 
     public void setLogin(@NotNull String sqlLogin) throws IllegalArgumentException {
-        if (sqlLogin.isBlank()) {
-            throw new IllegalArgumentException("Login is empty");
-        }
+        if (sqlLogin.isBlank()) throw new IllegalArgumentException("Login is empty");
         this.login = sqlLogin;
     }
 
@@ -78,9 +72,7 @@ public class MongoSettings {
     }
 
     public void setPassword(@NotNull String sqlPassword) throws IllegalArgumentException {
-        if (sqlPassword.isBlank()) {
-            throw new IllegalArgumentException("Password is empty");
-        }
+        if (sqlPassword.isBlank()) throw new IllegalArgumentException("Password is empty");
         this.password = sqlPassword;
     }
 
@@ -89,9 +81,7 @@ public class MongoSettings {
     }
 
     public void setDbName(@NotNull String sqldbName) throws IllegalArgumentException {
-        if (sqldbName.isBlank()) {
-            throw new IllegalArgumentException("Database name is empty");
-        }
+        if (sqldbName.isBlank()) throw new IllegalArgumentException("Database name is empty");
         this.dbName = sqldbName;
     }
 
@@ -100,9 +90,7 @@ public class MongoSettings {
     }
 
     public void setAuthDb(@NotNull String authDb) throws IllegalArgumentException {
-        if (authDb.isBlank()) {
-            throw new IllegalArgumentException("Database name is empty");
-        }
+        if (authDb.isBlank()) throw new IllegalArgumentException("Database name is empty");
         this.authDb = authDb;
     }
 }

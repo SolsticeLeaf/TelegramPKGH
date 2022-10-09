@@ -44,8 +44,6 @@ public class SentryUtils implements SentryCenter {
 
     @Override
     public void close() {
-        if (Sentry.isEnabled()) {
-            Sentry.close();
-        }
+        if (Sentry.isEnabled()) Sentry.close();
     }
 }

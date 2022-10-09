@@ -37,9 +37,7 @@ public abstract class JsonData extends JsonFile {
 
     protected JsonData(@NotNull FilesKeys file) throws IOException {
         super(file);
-        if (isFileNotExists(file)) {
-            copyFile(file);
-        }
+        if (isFileNotExists(file)) copyFile(file);
         this.jsonObject = getJsonFromFile();
     }
 

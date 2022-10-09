@@ -43,8 +43,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
  */
 @Slf4j
 @Command(
-        name = "schedule",
-        aliases = {"расписание", "неделя", "неделя📅"}
+        name = "week",
+        aliases = {"неделя", "неделя📅"}
 )
 public class GetScheduleListCommand extends ICommand {
 

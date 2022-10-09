@@ -96,9 +96,7 @@ public class UserQuery {
     }
 
     private static @Nullable User parseUserResult(@Nullable Document result) {
-        if (result == null || result.keySet().size() < 3) {
-            return null;
-        }
+        if (result == null || result.keySet().size() < 3) return null;
         return new BotUser()
                 .setName(String.valueOf(result.get("name")))
                 .setGroup(String.valueOf(result.get("group")))

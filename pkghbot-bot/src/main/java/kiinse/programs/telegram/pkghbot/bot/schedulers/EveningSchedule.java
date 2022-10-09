@@ -41,22 +41,18 @@ public class EveningSchedule extends TimerTask {
     public void run() {
         var now = TimeUtils.getDate();
         var sdf = new SimpleDateFormat("HH:mm");
-        if (sdf.format(now).equals("20:00")) {
-            new Thread(this::sendMailing).start();
-        }
+        if (sdf.format(now).equals("20:00")) new Thread(this::sendMailing).start();
     }
 
     public void sendMailing() {
         for (var user : UserQuery.getActiveUsers()) {
-            if (user.isMailing() && user.getStatus() == UserStatus.ACTIVE && !TimeUtils.getNextWeekday().equals("Воскресенье")) {
+            if (user.isMailing() && user.getStatus() == UserStatus.ACTIVE && !TimeUtils.getNextWeekday().equals("Воскресенье"))
                 BotUtils.sendAutoMailing(
                         user,
                         PKGHUtils.getLessons(
                                 ScheduleFactory.getGroup(user.getGroup()),
                                 TimeUtils.toDay(TimeUtils.getNextWeekday()),
                                 new Settings[]{Settings.AUTO_MAILING}));
-            }
-
         }
     }
 }

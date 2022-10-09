@@ -35,6 +35,7 @@ import kiinse.programs.telegram.pkghbot.core.schedule.ScheduleFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import xyz.winston.parser.core.ScheduleRenderer;
 
 /**
  * Класс команд, которые не добавить в менеджере команд
@@ -67,7 +68,9 @@ public class OtherCommands {
         var text = rawUpdate.getMessage().getText();
         var group = text.substring(0, text.length() - 1).toUpperCase() + text.substring(text.length() - 1).toLowerCase();
         var user = UserQuery.getUser(chat);
-        if (user != null && ScheduleFactory.hasGroup(group)) {
+
+        //TODO: ScheduleFactory.hasGroup(group)
+        if (user != null && checkGroup(group)) {
             user.setGroup(group).setStatus(UserStatus.ACTIVE).upload();
             BotUtils.sendMessage(
                     chat,
@@ -78,5 +81,14 @@ public class OtherCommands {
                     chat,
                     Messages.getText(Messages.Message.GROUPNOTFOUNDMSG).replace("GROUP", group));
         }
+    }
+
+    private boolean checkGroup(String group) {
+        try {
+            ScheduleRenderer.ofGroup(group).bakeImage();
+        } catch (Exception ignored) {
+            return false;
+        }
+        return true;
     }
 }

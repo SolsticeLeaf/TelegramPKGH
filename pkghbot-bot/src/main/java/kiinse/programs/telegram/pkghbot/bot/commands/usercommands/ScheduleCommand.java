@@ -29,9 +29,17 @@ import kiinse.programs.telegram.pkghbot.api.commands.ICommand;
 import kiinse.programs.telegram.pkghbot.api.data.User;
 import kiinse.programs.telegram.pkghbot.bot.utilities.BotUtils;
 import kiinse.programs.telegram.pkghbot.bot.utilities.KeyboardsFactory;
+import kiinse.programs.telegram.pkghbot.core.data.Messages;
 import kiinse.programs.telegram.pkghbot.core.data.Text;
 import org.jetbrains.annotations.NotNull;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import xyz.winston.parser.core.ScheduleRenderer;
+
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.Date;
 
 /**
  * Класс команды /schedule
@@ -48,12 +56,22 @@ public class ScheduleCommand extends ICommand {
 
     @Override
     public void process(@NotNull Update rawUpdate, @NotNull String[] args, @NotNull User user) {
-        var isGroupMessage = user.isGroup();
-        BotUtils.sendMessage(
-                user,
-                Text.getText(isGroupMessage, Text.TextName.SCHEDULE),
-                isGroupMessage ? null : KeyboardsFactory.Keyboard(KeyboardsFactory.getButtonRow("Сегодня", "Завтра"),
-                                                                  KeyboardsFactory.getButtonRow("Неделя📅", "Домой🏠")));
+//        var isGroupMessage = user.isGroup();
+//        BotUtils.sendMessage(
+//                user,
+//                Text.getText(isGroupMessage, Text.TextName.SCHEDULE),
+//                isGroupMessage ? null : KeyboardsFactory.Keyboard(KeyboardsFactory.getButtonRow("Сегодня", "Завтра"),
+//                                                                  KeyboardsFactory.getButtonRow("Неделя📅", "Домой🏠")));
+        //TODO: вернуть
+
+
+        try {
+            var file = new File(user.getName() + "-" + user.getGroup() + "-" + new Date().getTime() + ".png");
+            ImageIO.write(ScheduleRenderer.ofGroup(user.getGroup()).bakeImage(), "png", file);
+            BotUtils.sendPhoto(user, file);
+        } catch (Exception e) {
+            BotUtils.sendMessage(user, Messages.getText(Messages.Message.ERRORMSG));
+        }
     }
 
 }

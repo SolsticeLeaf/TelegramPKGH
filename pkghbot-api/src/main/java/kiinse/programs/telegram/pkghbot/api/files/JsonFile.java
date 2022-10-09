@@ -41,18 +41,14 @@ public abstract class JsonFile extends FilesManager {
     private final File file;
 
     protected JsonFile(@NotNull FilesKeys fileName) {
-        if (isFileNotExists(fileName)) {
-            copyFile(fileName);
-        }
+        if (isFileNotExists(fileName)) copyFile(fileName);
         this.file = getFile(fileName);
     }
 
     public @NotNull JSONObject getJsonFromFile() throws IOException {
         try (var br = new BufferedReader(new FileReader(file.getAbsolutePath()))) {
             var line = br.readLine();
-            if (line == null) {
-                return new JSONObject();
-            }
+            if (line == null) return new JSONObject();
             var json = new JSONObject(Files.readString(Paths.get(file.getAbsolutePath())));
             LoggerUtils.getLogger().info("File '{}' loaded", file.getName());
             return json;
@@ -62,9 +58,8 @@ public abstract class JsonFile extends FilesManager {
     }
 
     public void saveJsonToFile(@NotNull JSONObject json) throws IOException {
-        if (!file.exists() && file.createNewFile()) {
+        if (!file.exists() && file.createNewFile())
             LoggerUtils.getLogger().info("File '{}' created", file.getName());
-        }
         var lines = List.of(json.toString());
         Files.write(Paths.get(file.getAbsolutePath()), lines, StandardCharsets.UTF_8);
         LoggerUtils.getLogger().info("File '{}' saved", file.getName());

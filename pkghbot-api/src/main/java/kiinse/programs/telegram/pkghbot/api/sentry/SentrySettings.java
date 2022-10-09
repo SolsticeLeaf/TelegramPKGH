@@ -37,9 +37,7 @@ public class SentrySettings {
     }
 
     public void setDsn(@NotNull String sentryDsn) throws IllegalArgumentException {
-        if (sentryDsn.isBlank()) {
-            throw new IllegalArgumentException("Sentry dsn is empty");
-        }
+        if (sentryDsn.isBlank()) throw new IllegalArgumentException("Sentry dsn is empty");
         this.dsn = sentryDsn;
     }
 
@@ -48,9 +46,7 @@ public class SentrySettings {
     }
 
     public void setRelease(@NotNull String sentryRelease) throws IllegalArgumentException {
-        if (sentryRelease.isBlank()) {
-            throw new IllegalArgumentException("Sentry release is empty");
-        }
+        if (sentryRelease.isBlank()) throw new IllegalArgumentException("Sentry release is empty");
         this.release = sentryRelease;
     }
 }

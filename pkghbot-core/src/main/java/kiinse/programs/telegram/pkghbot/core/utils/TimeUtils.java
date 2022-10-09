@@ -54,11 +54,8 @@ public class TimeUtils {
     public static @NotNull String getWeekday() {
         var now = getDate();
         var day = new SimpleDateFormat("EEEEE").format(now);
-        if (isCyrillic(day)) {
-            return day.substring(0, 1).toUpperCase() + day.substring(1);
-        } else {
-            return getRussian(day);
-        }
+        if (isCyrillic(day)) return day.substring(0, 1).toUpperCase() + day.substring(1);
+        return getRussian(day);
     }
 
     public static @NotNull Weekday toDay(@NotNull String day) {
@@ -81,11 +78,8 @@ public class TimeUtils {
         cal.add(Calendar.DATE, 1);
         var date = cal.getTime();
         var day = new SimpleDateFormat("EEEEE").format(date);
-        if (isCyrillic(day)) {
-            return day.substring(0, 1).toUpperCase() + day.substring(1);
-        } else {
-            return getRussian(day);
-        }
+        if (isCyrillic(day)) return day.substring(0, 1).toUpperCase() + day.substring(1);
+        return getRussian(day);
     }
 
     public static @NotNull String getRussian(@NotNull String day) {
@@ -102,9 +96,7 @@ public class TimeUtils {
 
     public static boolean isCyrillic(@NotNull String string) {
         for (char thisChar : string.toCharArray()) {
-            if (Character.UnicodeBlock.of(thisChar) == Character.UnicodeBlock.CYRILLIC) {
-                return true;
-            }
+            if (Character.UnicodeBlock.of(thisChar) == Character.UnicodeBlock.CYRILLIC) return true;
         }
         return false;
     }

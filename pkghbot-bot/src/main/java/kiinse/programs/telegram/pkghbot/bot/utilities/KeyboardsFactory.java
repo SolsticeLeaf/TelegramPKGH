@@ -85,9 +85,7 @@ public class KeyboardsFactory {
             rows.add(getInlineRow("Авто-рассылка✉", "settings_mailing"));
             rows.add(getInlineRow("Рассылка пар✉", "settings_lesson_mailing"));
             rows.add(getInlineRow("Изменить группу🆔", "settings_group"));
-            if (!isGroupMessage) {
-                rows.add(getInlineRow("Добавить бота в беседу👥", "settings_add_chat_group"));
-            }
+            if (!isGroupMessage) rows.add(getInlineRow("Добавить бота в беседу👥", "settings_add_chat_group"));
             rows.add(getInlineRow("Закончить", "settings_close"));
         } else if (settings == ButtonSettings.ADMINS) {
             rows.add(getInlineRow("Административные уведомления", "admin_notifications"));
@@ -100,19 +98,14 @@ public class KeyboardsFactory {
     public static InlineKeyboardMarkup scheduleList(boolean isGroupMessage) {
         var rows = new ArrayList<List<InlineKeyboardButton>>();
         var inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        if (isGroupMessage) {
-            rows.add(getInlineRow(
-                    "Сегодня", "сегодня",
-                    "Завтра", "завтра"));
-        }
-        rows.add(getInlineRow("Понедельник", "понедельник",
-                              "Вторник", "вторник"));
+        if (isGroupMessage) rows.add(getInlineRow("Сегодня", "сегодня",
+                                                  "Завтра", "завтра"));
+        rows.add(getInlineRow("Понедельник", "понедельник", "Вторник", "вторник"));
         rows.add(getInlineRow("Среда", "среда",
                               "Четверг", "четверг"));
         rows.add(getInlineRow("Пятница", "пятница",
                               "Суббота", "суббота"));
         rows.add(getInlineRow("Вся неделя", "расписание"));
-
         inlineKeyboardMarkup.setKeyboard(rows);
         return inlineKeyboardMarkup;
     }

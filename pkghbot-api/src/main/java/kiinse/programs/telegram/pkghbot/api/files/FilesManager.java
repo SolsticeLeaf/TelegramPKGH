@@ -41,19 +41,15 @@ public abstract class FilesManager {
 
     public void createFile(@NotNull FilesKeys file) throws IOException {
         var destFile = getFile(file);
-        if (destFile.createNewFile()) {
+        if (destFile.createNewFile())
             LoggerUtils.getLogger().debug("File '{}' created", destFile.getName());
-        }
     }
 
     public void createDirectory(@NotNull DirectoriesKeys directory) throws SecurityException {
         var destDirectory = getFile(directory);
-        if (destDirectory.exists()) {
-            deleteFile(directory);
-        }
-        if (destDirectory.mkdirs()) {
+        if (destDirectory.exists()) deleteFile(directory);
+        if (destDirectory.mkdirs())
             LoggerUtils.getLogger().debug("Directory '{}' created", destDirectory.getName());
-        }
     }
 
     public void copyFile(@NotNull FilesKeys file) {
@@ -127,17 +123,13 @@ public abstract class FilesManager {
 
     public @Nullable InputStream accessFile(@NotNull FilesKeys file) {
         var input = FilesManager.class.getResourceAsStream(getFileName(file));
-        if (input == null) {
-            input = FilesManager.class.getClassLoader().getResourceAsStream(getFileName(file));
-        }
+        if (input == null) input = FilesManager.class.getClassLoader().getResourceAsStream(getFileName(file));
         return input;
     }
 
     private @Nullable InputStream accessFile(@NotNull String file) {
         var input = FilesManager.class.getResourceAsStream(file);
-        if (input == null) {
-            input = FilesManager.class.getClassLoader().getResourceAsStream(file);
-        }
+        if (input == null) input = FilesManager.class.getClassLoader().getResourceAsStream(file);
         return input;
     }
 
@@ -191,14 +183,12 @@ public abstract class FilesManager {
     }
 
     public void deleteFile(@NotNull FilesKeys file) {
-        if (getFile(file).delete()) {
+        if (getFile(file).delete())
             LoggerUtils.getLogger().debug("File '{}' deleted", getFile(file).getName());
-        }
     }
 
     public void deleteFile(@NotNull DirectoriesKeys file) {
-        if (getFile(file).delete()) {
+        if (getFile(file).delete())
             LoggerUtils.getLogger().debug("File '{}' deleted", getFile(file).getName());
-        }
     }
 }

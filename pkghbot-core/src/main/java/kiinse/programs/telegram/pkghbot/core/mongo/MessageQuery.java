@@ -54,9 +54,7 @@ public class MessageQuery {
     }
 
     private static @Nullable Message parseMessageResult(@Nullable Document result) {
-        if (result == null || result.keySet().size() < 3) {
-            return null;
-        }
+        if (result == null || result.keySet().size() < 3) return null;
         return new BotMessage(UUID.fromString(String.valueOf(result.get("_id"))))
                 .setUser(!String.valueOf(result.get("user")).equalsIgnoreCase("To all") ? Objects.requireNonNull(UserQuery.getUser(Long.parseLong(String.valueOf(result.get("user"))))) : null)
                 .setText(String.valueOf(result.get("text")))

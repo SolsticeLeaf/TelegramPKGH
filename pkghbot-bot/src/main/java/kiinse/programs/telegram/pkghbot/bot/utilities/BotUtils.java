@@ -38,11 +38,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.io.InputStream;
 
 public class BotUtils {
 
@@ -69,14 +74,14 @@ public class BotUtils {
         message.enableHtml(true);
         if (text.length() >= 4096) {
             message.setText(text.substring(0, 2048));
-            execute(user, text, message);
+            execute(user, message);
             message.setText(text.substring(2048));
             if (inlineKeyboard != null) {
                 message.setReplyMarkup(inlineKeyboard);
             } else if (replyKeyBoard != null) {
                 message.setReplyMarkup(replyKeyBoard);
             }
-            execute(user, text, message);
+            execute(user, message);
             return;
         }
 
@@ -86,7 +91,7 @@ public class BotUtils {
         } else if (replyKeyBoard != null) {
             message.setReplyMarkup(replyKeyBoard);
         }
-        execute(user, text, message);
+        execute(user, message);
     }
 
     public static void sendMessage(long chat, @NotNull String text) {
@@ -95,6 +100,14 @@ public class BotUtils {
         message.enableHtml(true);
         message.setText(text);
         execute(message);
+    }
+
+    public static void sendPhoto(@NotNull User user, @NotNull java.io.File file) {
+        var message = new SendPhoto();
+        message.setChatId(user.getChatId());
+        message.setPhoto(new InputFile().setMedia(file));
+        execute(user, message);
+        file.delete();
     }
 
     public static void sendPost(@NotNull Post post) throws TelegramApiException {
@@ -133,7 +146,7 @@ public class BotUtils {
         message.setChatId(user.getChatId());
         message.enableHtml(true);
         message.setText(text);
-        execute(user, text, message);
+        execute(user, message);
     }
 
     public static void editMessageText(@NotNull User user, int messageId, @NotNull String text, @Nullable InlineKeyboardMarkup inlineKeyboard) {
@@ -142,9 +155,7 @@ public class BotUtils {
         message.setMessageId(messageId);
         message.enableHtml(true);
         message.setText(text);
-        if (inlineKeyboard != null) {
-            message.setReplyMarkup(inlineKeyboard);
-        }
+        if (inlineKeyboard != null) message.setReplyMarkup(inlineKeyboard);
         try {
             Bot.getInstance().execute(message);
         } catch (TelegramApiException e) {
@@ -175,7 +186,7 @@ public class BotUtils {
         }
     }
 
-    private static void execute(@NotNull SendMessage message) {
+    private static void execute( @NotNull SendMessage message) {
         try {
             Bot.getInstance().execute(message);
         } catch (TelegramApiException e) {
@@ -183,7 +194,8 @@ public class BotUtils {
         }
     }
 
-    private static void execute(@NotNull User user, @NotNull String text, @NotNull SendMessage message) {
+    private static void execute(@NotNull User user, @NotNull SendPhoto message) {
+        //TODO: Убрать
         try {
             Bot.getInstance().execute(message);
         } catch (TelegramApiException e) {
@@ -196,11 +208,31 @@ public class BotUtils {
                 user.setStatus(UserStatus.DEACTIVATED).upload();
                 logger.info("User {} has been deactivated", user.getName());
             } else {
-                logger.warn("Error on sending message.\nChat ID: {} | User group: {} | Reason: {}\nText: {}",
+                logger.warn("Error on sending message.\nChat ID: {} | User group: {} | Reason: {}",
                             user.getChatId(),
                             user.getGroup(),
-                            e.getMessage(),
-                            text);
+                            e.getMessage());
+            }
+        }
+    }
+
+    private static void execute(@NotNull User user, @NotNull SendMessage message) {
+        try {
+            Bot.getInstance().execute(message);
+        } catch (TelegramApiException e) {
+            Sentry.captureException(e);
+            if (e.getMessage().contains("was blocked by the user")) {
+                user.setStatus(UserStatus.BOT_BLOCKED).upload();
+                logger.info("User {} blocked the bot", user.getName());
+            } else if (e.getMessage().contains("user is deactivated") || e.getMessage().contains("chat not found") || e.getMessage().contains(
+                    "chat was deleted")) {
+                user.setStatus(UserStatus.DEACTIVATED).upload();
+                logger.info("User {} has been deactivated", user.getName());
+            } else {
+                logger.warn("Error on sending message.\nChat ID: {} | User group: {} | Reason: {}",
+                            user.getChatId(),
+                            user.getGroup(),
+                            e.getMessage());
             }
         }
     }

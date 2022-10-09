@@ -41,9 +41,7 @@ public class BotLessonNumDen implements NumDenLesson {
     public @Nullable String getSubject() {
         if (data.has("name")) {
             var name = data.getString("name");
-            if (!name.isBlank()) {
-                return name.replace("\n", " ").replace("||", " // ");
-            }
+            if (!name.isBlank()) return name.replace("\n", " ").replace("||", " // ");
         }
         return null;
     }
@@ -52,18 +50,14 @@ public class BotLessonNumDen implements NumDenLesson {
     public @Nullable String getCabinet() {
         if (data.has("cabinet")) {
             var cabinet = data.getString("cabinet");
-            if (!cabinet.isBlank()) {
-                return cabinet.replace("\n", " ").replace("||", " // ");
-            }
+            if (!cabinet.isBlank()) return cabinet.replace("\n", " ").replace("||", " // ");
         }
         return null;
     }
 
     @Override
     public @Nullable String getTime() {
-        if (data.has("time")) {
-            return data.getString("time");
-        }
+        if (data.has("time")) return data.getString("time");
         return null;
     }
 

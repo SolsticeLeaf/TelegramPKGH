@@ -45,7 +45,7 @@ public class RandomData extends JsonData {
             int random = 1 + (int) (Math.random() * jsonFile.keySet().size());
             return jsonFile.get(String.valueOf(random)).toString();
         } catch (Exception e) {
-            LoggerUtils.getLogger().warn("An error occurred while getting data from file: " + e.getMessage());
+            LoggerUtils.getLogger().warn("An error occurred while getting data from file: {}", e.getMessage());
             Sentry.captureException(e);
         }
         return "Ошибка в получении текста.";

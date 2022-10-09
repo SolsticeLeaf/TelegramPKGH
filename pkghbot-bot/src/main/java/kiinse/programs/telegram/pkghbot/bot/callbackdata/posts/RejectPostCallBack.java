@@ -45,9 +45,8 @@ public class RejectPostCallBack extends ICallBackData {
 
     @Override
     public void process(@NotNull Update rawUpdate, @NotNull String[] args, @NotNull User user, int messageId) {
-        if (args.length < 1) {
-            return;
-        }
+        if (args.length < 1) return;
+
         var post = PostQuery.getPost(UUID.fromString(args[0]));
 
         if (post == null) {

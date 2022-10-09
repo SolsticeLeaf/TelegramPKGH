@@ -82,12 +82,10 @@ public class CommandsManager {
      * @param command Поступающий класс команды {@link ICommand}
      */
     protected void registerCommand(@NotNull ICommand command) {
-        if (commands.contains(command)) {
+        if (commands.contains(command))
             throw new IllegalStateException("Command " + command.getClass().getName() + " is already registered! ");
-        }
-        if (!command.getClass().isAnnotationPresent(Command.class)) {
+        if (!command.getClass().isAnnotationPresent(Command.class))
             throw new IllegalStateException("Command " + command.getClass().getName() + " does not contains required annotation!");
-        }
         commands.add(command);
     }
 
@@ -103,9 +101,7 @@ public class CommandsManager {
         String[] components = text.replaceFirst("/", "").split(" ");
         String[] args = Arrays.copyOfRange(components, 1, components.length);
         ICommand command = getCommand(components[0]);
-        if (command == null) {
-            return;
-        }
+        if (command == null) return;
 
         var chat = rawUpdate.getMessage().getChatId();
         var user = UserQuery.getUser(chat);
@@ -126,12 +122,8 @@ public class CommandsManager {
     }
 
     public boolean canExecute(@NotNull Command data, @NotNull User user) {
-        if (data.isAdmin()) {
-            return user.isAdmin();
-        }
-        if (!data.canFromGroup()) {
-            return !user.isGroup();
-        }
+        if (data.isAdmin()) return user.isAdmin();
+        if (!data.canFromGroup()) return !user.isGroup();
         return true;
     }
 

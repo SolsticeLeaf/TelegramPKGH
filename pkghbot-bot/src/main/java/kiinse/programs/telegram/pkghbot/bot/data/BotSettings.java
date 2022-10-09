@@ -52,9 +52,7 @@ public class BotSettings {
     }
 
     public void setOtherCommands(OtherCommands otherCmd) throws NullPointerException {
-        if (otherCmd == null) {
-            throw new NullPointerException("OtherCommands can't be null");
-        }
+        if (otherCmd == null) throw new NullPointerException("OtherCommands can't be null");
         this.otherCommands = otherCmd;
     }
 
@@ -69,9 +67,7 @@ public class BotSettings {
      * @throws NullPointerException В случае, если поступающий CommandsManager == null
      */
     public void setCommandsManager(CommandsManager cmdMng) throws NullPointerException {
-        if (cmdMng == null) {
-            throw new NullPointerException("CommandsManager can't be null");
-        }
+        if (cmdMng == null) throw new NullPointerException("CommandsManager can't be null");
         this.commandsManager = cmdMng;
     }
 
@@ -86,9 +82,7 @@ public class BotSettings {
      * @throws NullPointerException В случае, если поступающий CallBackDataManager == null
      */
     public void setCallBackDataManager(CallBackDataManager cbdMng) throws NullPointerException {
-        if (cbdMng == null) {
-            throw new NullPointerException("CallBackDataManager can't be null");
-        }
+        if (cbdMng == null) throw new NullPointerException("CallBackDataManager can't be null");
         this.callBackDataManager = cbdMng;
     }
 
@@ -103,9 +97,7 @@ public class BotSettings {
      * @throws NullPointerException В случае, если поступающая строка пустая
      */
     public void setBotName(String name) throws NullPointerException {
-        if (name.isBlank()) {
-            throw new NullPointerException("Bot name can't be empty");
-        }
+        if (name.isBlank()) throw new NullPointerException("Bot name can't be empty");
         this.botName = name;
     }
 
@@ -120,9 +112,7 @@ public class BotSettings {
      * @throws NullPointerException В случае, если поступающая строка пустая
      */
     public void setBotToken(String token) throws NullPointerException {
-        if (token.isBlank()) {
-            throw new NullPointerException("Bot token can't be empty");
-        }
+        if (token.isBlank()) throw new NullPointerException("Bot token can't be empty");
         this.botToken = token;
     }
 

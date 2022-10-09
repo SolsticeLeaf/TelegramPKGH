@@ -46,9 +46,7 @@ public class FileManager {
      */
     public static InputStream accessFile(String resource) {
         InputStream input = FileManager.class.getResourceAsStream(File.separator + "resources" + File.separator + resource);
-        if (input == null) {
-            input = FileManager.class.getClassLoader().getResourceAsStream(resource);
-        }
+        if (input == null) input = FileManager.class.getClassLoader().getResourceAsStream(resource);
         return input;
     }
 

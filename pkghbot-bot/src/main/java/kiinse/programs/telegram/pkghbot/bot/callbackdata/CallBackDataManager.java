@@ -95,12 +95,10 @@ public class CallBackDataManager {
      * @param callBackData Поступающий класс команды {@link ICallBackData}
      */
     protected void registerCallBackData(@NotNull ICallBackData callBackData) {
-        if (commands.contains(callBackData)) {
+        if (commands.contains(callBackData))
             throw new IllegalStateException("CallBackData " + callBackData.getClass().getName() + " is already registered! ");
-        }
-        if (!callBackData.getClass().isAnnotationPresent(CallBackData.class)) {
+        if (!callBackData.getClass().isAnnotationPresent(CallBackData.class))
             throw new IllegalStateException("CallBackData " + callBackData.getClass().getName() + " does not contains required annotation!");
-        }
         commands.add(callBackData);
     }
 
@@ -113,9 +111,7 @@ public class CallBackDataManager {
         String[] components = rawUpdate.getCallbackQuery().getData().split(" ");
         String[] args = Arrays.copyOfRange(components, 1, components.length);
         ICallBackData callBack = getCallBackData(components[0]);
-        if (callBack == null) {
-            return;
-        }
+        if (callBack == null) return;
 
         var chat = rawUpdate.getCallbackQuery().getMessage().getChatId();
         var user = UserQuery.getUser(chat);
@@ -137,9 +133,7 @@ public class CallBackDataManager {
     }
 
     public boolean canExecute(@NotNull CallBackData data, @NotNull User user) {
-        if (data.isAdmin()) {
-            return user.isAdmin();
-        }
+        if (data.isAdmin()) return user.isAdmin();
         return true;
     }
 
