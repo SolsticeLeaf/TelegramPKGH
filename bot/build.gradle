@@ -1,0 +1,46 @@
+import com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer
+
+dependencies {
+    // Bot's SDK
+    api project(":sdk")
+
+    // Telegram bot API
+    implementation 'org.telegram:telegrambots:6.1.0'
+
+    // Winston's code :tm:
+    implementation 'xyz.winston:databases:1.2'
+    implementation 'xyz.winston:java-commons:1.2.1'
+    implementation 'xyz.winston:expermiental-parser:1.0.0-RELEASE'
+
+    // Apache Commons
+    api 'org.apache.commons:commons-lang3:3.12.0'
+
+    // Apache logging
+    api "org.apache.logging.log4j:log4j-core:2.19.0"
+    api "org.apache.logging.log4j:log4j-iostreams:2.19.0"
+    annotationProcessor 'org.apache.logging.log4j:log4j-core:2.19.0'
+
+    // SQLite driver
+    implementation 'org.xerial:sqlite-jdbc:3.39.3.0'
+
+    // Implementations loader
+    api project(":implementations")
+    annotationProcessor project(":implementations")
+}
+
+tasks {
+    shadowJar {
+        transform new Log4j2PluginsCacheFileTransformer()
+
+        def output = rootProject.ext.get('output')
+        destinationDirectory = file("$rootDir/$output")
+
+        archiveFileName = "PKGHBot.jar"
+
+        manifest {
+            attributes(
+                    "Main-Class": "dev.pkgh.bot.Bootstrap"
+            )
+        }
+    }
+}

@@ -3,11 +3,14 @@
 
 .idea
 
-PKGHBotFiles
+# Directory that contains shaded build files (ready to run)
+output
 
-pkghbot-api/build
-pkghbot-core/build
-pkghbot-bot/build
+# Working directory for bot testing
+.environment
+
+# I use this directory for storing needful scripts. Do not remove. ~winston
+scripts
 
 # Ignore Gradle GUI config
 gradle-app.setting

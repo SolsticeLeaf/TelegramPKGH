@@ -1,46 +1,95 @@
 plugins {
-    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.0.0" apply false
 }
 
-group 'kiinse.programs.telegram.pkghbot'
-version '4.0.0-beta.4'
+/** Credentials for repo.zalupario.ru */
+def user = findProperty("repo.zalupa.user")
+def pass = findProperty("repo.zalupa.pass")
 
-sourceCompatibility = 17
-targetCompatibility = 17
+// Хихихиха)
+def isWinston = true
 
-repositories {
-    mavenCentral()
+ext.set('output', findProperty("gradle.output") ?: "output/")
 
-    maven {
-        url = "https://repo.zalupario.ru/repository/maven-releases/"
+allprojects {
+    group = "dev.pkgh"
+    version = "1.0.0-Dev"
+}
 
-        credentials {
-            username = 'kiinse'
-            password = 'eMwvEsvQ9ehXeM93Lfst'
-        }
+configure(subprojects) {
+    apply plugin: "java"
+    apply plugin: "java-library"
+    apply plugin: "com.github.johnrengelman.shadow"
 
-        mavenContent {
-            releasesOnly()
+    repositories {
+        mavenCentral()
+
+        if (isWinston) {
+            maven {
+                url = "https://repo.zalupario.ru/repository/maven-releases/"
+
+                credentials {
+                    username = user
+                    password = pass
+                }
+
+                mavenContent {
+                    releasesOnly()
+                }
+            }
+        } else {
+            mavenLocal()
         }
     }
-}
 
-dependencies {
-    implementation project(":pkghbot-api")
-    implementation project(":pkghbot-core")
-    implementation project(":pkghbot-bot")
+    tasks {
+        shadowJar {
+            exclude 'xyz/winston/impl/compiletime/**'   // impls
+            exclude 'META-INF/DEPENDENCIES'
+            exclude 'META-INF/LICENSE'
+            exclude 'META-INF/LICENSE.txt'
+            exclude 'META-INF/NOTICE'
+            exclude 'META-INF/NOTICE.txt'
+            exclude 'META-INF/maven/**'
 
-    implementation 'xyz.winston:expermiental-parser:1.0.0-RELEASE'
-}
+            mergeServiceFiles {
+                include 'META-INF/impl/**'              // impls
+            }
+        }
 
-tasks.withType(Jar) {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes["Main-Class"] = "kiinse.programs.telegram.pkghbot.bot.Main"
+        compileJava {
+            targetCompatibility = JavaVersion.VERSION_17
+            sourceCompatibility = JavaVersion.VERSION_17
+            options.encoding = "UTF-8"
+        }
+
+        compileTestJava {
+            targetCompatibility = JavaVersion.VERSION_17
+            sourceCompatibility = JavaVersion.VERSION_17
+            options.encoding = "UTF-8"
+        }
+
+        build {
+            dependsOn(shadowJar)
+        }
+
+        test {
+            useJUnitPlatform()
+        }
     }
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-}
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+    dependencies {
+        // Lombok annotations
+        compileOnly "org.projectlombok:lombok:1.18.20"
+        annotationProcessor "org.projectlombok:lombok:1.18.20"
+        testCompileOnly "org.projectlombok:lombok:1.18.20"
+        testAnnotationProcessor "org.projectlombok:lombok:1.18.20"
+
+        // JetBrains annotations
+        compileOnly "org.jetbrains:annotations:20.1.0"
+
+        // Unit-Tests
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    }
 }

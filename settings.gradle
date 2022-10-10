@@ -1,4 +1,4 @@
 rootProject.name = 'TelegramPKGH'
-
-include 'pkghbot-api', 'pkghbot-core', 'pkghbot-bot'
-
+include 'implementations'
+include 'sdk'
+include 'bot'

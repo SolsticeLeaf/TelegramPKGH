@@ -1,0 +1,8 @@
+dependencies {
+    implementation 'org.telegram:telegrambots:6.1.0'
+
+    /** ASM stuff for commands manager */
+    implementation 'org.ow2.asm:asm:9.4'
+
+    api project(":implementations")
+}
