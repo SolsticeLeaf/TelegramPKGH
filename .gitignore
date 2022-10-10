@@ -1,5 +1,7 @@
 .gradle
 /build/
+/bot/build/
+/sdk/build/
 
 .idea
 
