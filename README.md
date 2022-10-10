@@ -20,7 +20,6 @@
   </a><br><br>
   <a href="#помощь">Помощь</a> •
   <a href="#особенности">Особенности</a> •
-  <a href="#установка">Установка</a> •
   <a href="#конфиг">Конфиг</a>
 </p>
 
@@ -34,50 +33,32 @@
 
 ## Особенности
 
-- Рассылка расписания на следующий ежедневно в 8 часов вечера
-- Рассылка следующих пар
 - Просмотр расписания
 
-## Установка
-
-Для установки бота необходимо для начала загрузить Rest сервер (**Ссылка будет позже**).
-
-Затем необходимо выполнить следующие команды:
-```bash
-> git clone https://github.com/kiinse/TelegramPKGH && cd TelegramPKGH
-> gradle clean build && cd /build/libs/
-> sudo java -jar TelegramPKGH-ВЕРСИЯ.jar
-```
-
 **Для установки требуется JDK 17+, а так же версия Gradle 6+**
-
+**Рекомендую использовать [GraalVM](https://www.graalvm.org/)** 
 
 ## Конфиг
 
 ```properties
-# Бот использует базу данных MongoDB
-db.host=localhost
-db.port=27017
-db.name=pkghbot
-db.login=mongo
-db.password=mongo
-db.auth=admin
-# База данных для проверки авторизации
+###     Основные настройки    ###
 
-bot.token=bot token
-# Токен бота
-bot.name=PKGHScheduleBot
-# Имя бота
+bot.token=Токен бота
+bot.username=Юзернейм бота
 
-sentry.enabled=true
-# Включён ли Sentry
-sentry.dsn=sentry dsn token
-# Токен Sentry для отслеживания ошибок
+###     Основные настройки БД   ###
 
-admins=admin1 | admin2
-# Администрация
-channel=@podslyshanopkgh
-# Линк на канал для отправки постов (Должен начинаться с собаки)
-rest=http://pkgh.schedule:3366/
-# Rest с сервисом для получения расписания
+# Выбранный движлк БД. SQLite / MySQL
+db.selected=SQLite
+
+# SQLite
+# Путь к файлам .db sqlite
+# ВНИМАНИЕ: Не ставьте "/" в конце
+db.sqlite.path=Path to SQLite databases directory
+
+# MySQL
+db.mysql.host=MySQL host
+db.mysql.port=MySQL port
+db.mysql.user=MySQL User
+db.mysql.password=MySQL Password
 ```
