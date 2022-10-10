@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.winston.tcommons.databases.sql.SQLDatabase;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,6 +28,10 @@ public final class UsersSqlHandler {
     String LOAD_USER = "SELECT * FROM `Users` WHERE `Id` = ?;";
     String UPDATE_USER = "UPDATE `Users` SET `Group` = ?, `Permissions` = ?, `Reg_Date` = ? WHERE `Id` = ?;";
     String CREATE_USER = "INSERT INTO `Users` (`Id`, `Group`, `Permissions`, `Reg_Date`) VALUES (?, ?, ?, ?);";
+
+    String LOAD_PROPERTIES = "SELECT * FROM `Properties` WHERE `Id` = ?;";
+    String UPDATE_PROPERTY = "UPDATE `Properties` SET `Value` = ? WHERE `Id` = ? AND `Property` = ?;";
+    String CREATE_PROPERTY = "INSERT INTO `Properties` (`Id`, `Property`, `Value`) VALUES (?, ?, ?);";
 
     /**
      * Cache is required to save performance by limiting requests
@@ -93,9 +98,6 @@ public final class UsersSqlHandler {
             if (rows.size() < 1) {
                 val dummy = new BotUser(userId);
 
-                // Registration of user, just by setting it's reg time
-                dummy.setRegistrationDate(LocalDateTime.now());
-
                 // Creating user record, to avoid unwanted errors
                 createUserRecord(dummy);
 
@@ -107,7 +109,7 @@ public final class UsersSqlHandler {
             val botUser = new BotUser(userId);
             botUser.setGroup(row.getString("Group").orElse(null));
             botUser.setRegistrationDate(LocalDateTime.parse(row.getRequiredString("Reg_Date")));
-
+            botUser.getProperties().putAll(getProperties(userId));
             return botUser;
         }).join();
     }
@@ -118,7 +120,7 @@ public final class UsersSqlHandler {
      * @return          real???? or FAKE?!?!
      */
     public boolean isUserExists(final long userId) {
-        return getBotUser(userId).getRegistrationDate() == null;
+        return getBotUser(userId).getRegistrationDate() != null; // todo: recode
     }
 
     /**
@@ -126,7 +128,19 @@ public final class UsersSqlHandler {
      * @param userData  user data class instance
      */
     public void saveUserData(final @NonNull BotUser userData) {
+
         database.executeUpdate(UPDATE_USER, userData.getGroup(), 0, userData.getRegistrationDate().toString(), userData.getId());
+
+        // govnocode
+        val props = getProperties(userData.getId()).keySet();
+
+        for (val userProperty : userData.getProperties().entrySet()) {
+            if (props.contains(userProperty.getKey())) {
+                updateProperty(userData.getId(), userProperty.getKey(), userProperty.getValue());
+            } else {
+                createProperty(userData.getId(), userProperty.getKey(), userProperty.getValue());
+            }
+        }
     }
 
     /**
@@ -134,7 +148,39 @@ public final class UsersSqlHandler {
      * @param userData  user data class instance
      */
     private void createUserRecord(final @NonNull BotUser userData) {
-        database.executeUpdate(CREATE_USER,  userData.getId(), userData.getGroup(), 0, userData.getRegistrationDate().toString());
+        database.executeUpdate(CREATE_USER,  userData.getId(), userData.getGroup(), 0, LocalDateTime.now().toString());
+    }
+
+    /**
+     * Loads properties map from database.
+     * Note: For internal usage. Do not call out of the class.
+     * @return  properties for user
+     */
+    private HashMap<String, Integer> getProperties(final long userId) {
+        return database.executeQuery(LOAD_PROPERTIES, userId).thenApply(rows -> {
+            val map = new HashMap<String, Integer>();
+            if (rows.size() == 0) {
+                return map; // empty
+            }
+
+            for (val row : rows) {
+                map.put(row.getRequiredString("Property"), row.getRequiredInt("Value"));
+            }
+
+            return map;
+        }).join();
+    }
+
+    public void createProperty(final long userId,
+                               final @NonNull String property,
+                               final int value) {
+        database.executeUpdate(CREATE_PROPERTY, userId, property, value);
+    }
+
+    private void updateProperty(final long userId,
+                                final @NonNull String property,
+                                final int value) {
+        database.executeUpdate(UPDATE_PROPERTY, value, userId, property);
     }
 
 }

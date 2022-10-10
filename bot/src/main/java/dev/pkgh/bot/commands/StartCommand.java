@@ -1,5 +1,6 @@
 package dev.pkgh.bot.commands;
 
+import dev.pkgh.bot.util.BotUtils;
 import dev.pkgh.bot.util.KeyboardUtil;
 import dev.pkgh.sdk.commands.NamedCommand;
 import dev.pkgh.sdk.commands.WithAlias;
@@ -19,9 +20,7 @@ public final class StartCommand {
 
     @ExecutorMethod
     public static void execute(ExecutionSession session) {
-        MessageUtil.sendMessage(String.valueOf(session.getTextChannel().getId()), "Привет! Этот бот отправляет расписание из самой крутой шараги в мире - ПКГХ.\n" +
-                "Внизу появились кнопочки, используй их что бы задать свою группу, а затем запроси расписание.\n" +
-                "Я знаю, текст хуйня, потом переделаем :D", KeyboardUtil.getMainMenuKeyboard());
+        BotUtils.handleStart(session.getTextChannel());
     }
 
 }

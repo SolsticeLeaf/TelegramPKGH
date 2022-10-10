@@ -14,6 +14,7 @@ import lombok.SneakyThrows;
 import lombok.val;
 
 import java.io.*;
+import java.util.Arrays;
 
 /**
  * Flow dump generation command and
@@ -52,6 +53,16 @@ public final class TestCommand {
         session.sendMessage("Executing test flow user ...");
         val user = BotUser.getOrCreate(session.getSender().getId());
         session.sendMessage(user.getId() + " | " + user.getGroup() + " | " + user.getRegistrationDate().toString());
+        session.sendMessage("Done executing test flow user");
+    }
+
+    @SubcommandExecutor("prop")
+    public static void testProp(final ExecutionSession session) {
+        session.sendMessage("Executing test prop ...");
+
+        val usr = BotUser.getOrCreate(session.getSender().getId());
+        session.sendMessage("Props dump: " + Arrays.toString(usr.getProperties().entrySet().toArray()));
+
         session.sendMessage("Done executing test flow user");
     }
 

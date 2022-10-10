@@ -12,9 +12,11 @@ import java.util.Date;
 @UtilityClass
 public final class TimeUtil {
 
+    public static String STANDARD_PATTERN = "yyyy-dd-MM HH:mm:ss";
+
     /** Default pattern */
     public @NonNull String getFormattedDate() {
-        return getFormattedDate("yyyy-dd-MM HH:mm:ss z");
+        return getFormattedDate(STANDARD_PATTERN);
     }
 
     /**

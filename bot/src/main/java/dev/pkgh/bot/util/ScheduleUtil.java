@@ -12,6 +12,7 @@ import lombok.experimental.UtilityClass;
 import lombok.val;
 import org.xml.sax.SAXException;
 import xyz.winston.parser.core.ScheduleRenderer;
+import xyz.winston.parser.utils.ShitUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -41,18 +42,7 @@ public final class ScheduleUtil {
      * @return          yea or nah??!
      */
     public boolean isValidGroup(final @NonNull String string) {
-        val entries = groupScheduleCache.asMap().entrySet();
-
-        if(entries.stream().anyMatch(e -> e.getValue().equalsIgnoreCase(string))) {
-            return true;
-        }
-
-        try {
-            loadSchedule(string);
-            return true;
-        } catch (final Exception e) {
-            return false;
-        }
+        return ShitUtil.validateUrl(String.format("https://pkgh.edu.ru/normdocs/priem/lists/rasp/%s.html", ShitUtil.translit(string).toUpperCase()));
     }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
