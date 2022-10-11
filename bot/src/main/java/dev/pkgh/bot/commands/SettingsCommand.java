@@ -43,18 +43,30 @@ public final class SettingsCommand {
                         "")
                 .enableMarkdown(true)
                 .withChatId(session.getTextChannel().getId())
-                .addButton("тест 1", "settings_test1", new SmartMessage.ActionExecutorImpl() {
+                .addButton("Сообщение", "settings_test1", new SmartMessage.ActionExecutorImpl() {
                     @Override
                     public void handleActionExecution(@NonNull Update update, @NonNull SmartManager invokerManager, @NonNull SmartMessage selfInstance) {
                         MessageUtil.sendMessage(update.getCallbackQuery().getMessage().getChat(), "hiii");
                     }
-                })
-                .addButton("тест 1337", "settings_test1231", new SmartMessage.ActionExecutor() {
+                }) // 0
+                .addButton("Удалить", "settings_test1231", new SmartMessage.ActionExecutor() {
                     @Override
                     public void handleActionExecution(@NonNull Update update, @NonNull SmartManager invokerManager, @NonNull SmartMessage selfInstance) {
                         destroy(invokerManager, selfInstance);
                     }
-                })
+                }) // 1
+                .addButton("Обновить Markup", "chleeeen", new SmartMessage.ActionExecutor() {
+                    @Override
+                    public void handleActionExecution(@NonNull Update update, @NonNull SmartManager invokerManager, @NonNull SmartMessage selfInstance) {
+                        editMarkup(selfInstance, invokerManager, 2, "sex " + System.currentTimeMillis());
+                    }
+                }) // 2
+                .addButton("Обновить текст", "text_flow", new SmartMessage.ActionExecutor() {
+                    @Override
+                    public void handleActionExecution(@NonNull Update update, @NonNull SmartManager invokerManager, @NonNull SmartMessage selfInstance) {
+                        editMessageText(selfInstance, invokerManager, System.currentTimeMillis() + " $$$", true);
+                    }
+                }) // 3
                 .build());
 
         /*
