@@ -4,8 +4,12 @@ import com.google.common.collect.Lists;
 import dev.pkgh.bot.data.UsersSqlHandler;
 import dev.pkgh.bot.type.Setting;
 import dev.pkgh.sdk.logging.Logging;
+import dev.pkgh.sdk.type.IBotUser;
+import dev.pkgh.sdk.type.UserPermission;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
+import org.telegram.telegrambots.meta.api.objects.User;
 import xyz.winston.tcommons.map.IndexMap;
 
 import javax.annotation.Nonnull;
@@ -19,7 +23,7 @@ import java.util.Map;
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
-public final class BotUser {
+public final class BotUser implements IBotUser {
 
     /** Unique identification field for telegram user */
     final long id;
@@ -62,12 +66,63 @@ public final class BotUser {
 
     // endregion
 
+    // region settings
+
+    /**
+     * @return new value of setting
+     */
+    public boolean toggleSetting(final @NonNull Setting setting) {
+        if (isSettingEnabled(setting)) {
+            disableSetting(setting);
+            return false;
+        } else {
+            enableSetting(setting);
+            return true;
+        }
+    }
+
+    public void enableSetting(final @NonNull Setting setting) {
+        if (!isSettingEnabled(setting)) {
+            val $tmp = getSettings();
+            $tmp.add(setting);
+
+            setSettings($tmp);
+        }
+    }
+
+    public void disableSetting(final @NonNull Setting setting) {
+        if (isSettingEnabled(setting)) {
+            val $tmp = getSettings();
+            $tmp.remove(setting);
+            setSettings($tmp);
+        }
+    }
+
+    public boolean isSettingEnabled(final @NonNull Setting setting) {
+        return getSettings().contains(setting);
+    }
+
+    // endregion
+
+    // region permissions
+
+    public boolean hasPermission(final @NonNull UserPermission permission) {
+        if (permission == UserPermission.USER) return true;
+        return getProperty("admin") == 1;
+    }
+
+    // endregion
+
     /**
      * Gets list of user settings
      * @return  list of user's enabled settings
      */
     public List<Setting> getSettings() {
         return Lists.newArrayList(Setting.getSettings(properties.getOrDefault("settings", 0)));
+    }
+
+    public void setSettings(final @NonNull List<Setting> settings) {
+        setProperty("settings", Setting.createMask(settings.toArray(Setting[]::new)));
     }
 
     // -------------------------------------------------------------------------
@@ -107,4 +162,10 @@ public final class BotUser {
         return user;
     }
 
+    @Override
+    public @NotNull UserPermission getPermission() {
+        return getProperty("admin") == 1
+                ? UserPermission.ADMINISTRATOR
+                : UserPermission.USER;
+    }
 }

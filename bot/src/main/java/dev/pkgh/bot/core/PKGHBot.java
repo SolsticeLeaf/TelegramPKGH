@@ -54,7 +54,6 @@ public final class PKGHBot extends TelegramLongPollingBot implements UpdatesHand
 
         this.commandManager = new CommandManager(this);
         commandManager.addCommand(TestCommand.class);
-        commandManager.addCommand(RankCommand.class);
         commandManager.addCommand(SettingsCommand.class, new SettingsCommand(this));
         commandManager.addCommand(SetGroupCommand.class);
         commandManager.addCommand(SetPropertyCommand.class);

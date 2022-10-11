@@ -2,6 +2,7 @@ package dev.pkgh.bot.adapter;
 
 import dev.pkgh.bot.core.PKGHBot;
 import dev.pkgh.bot.sessions.SessionsManager;
+import dev.pkgh.bot.users.BotUser;
 import dev.pkgh.sdk.adapter.UpdateAdapter;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public final class CommandInvokerAdapter implements UpdateAdapter {
 
         // Executing shit
         instance.getCommandManager().executeCommand(
+                BotUser.getOrCreate(update.getMessage().getFrom().getId()),
                 update.getMessage().getFrom(),
                 update.getMessage().getChat(),
                 update.getMessage().getText(),

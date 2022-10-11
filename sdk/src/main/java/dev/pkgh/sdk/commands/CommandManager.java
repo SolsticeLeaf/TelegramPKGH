@@ -2,6 +2,7 @@ package dev.pkgh.sdk.commands;
 
 import com.google.common.collect.Lists;
 import dev.pkgh.sdk.commands.execution.*;
+import dev.pkgh.sdk.type.IBotUser;
 import dev.pkgh.sdk.type.UserPermission;
 import dev.pkgh.sdk.utils.MetafactoryBuilder;
 import lombok.AccessLevel;
@@ -134,7 +135,8 @@ public final class CommandManager {
     }
 
     // TODO: Optimization
-    public void executeCommand(final @NonNull User sender,
+    public void executeCommand(final @NonNull IBotUser user,
+                               final @NonNull User sender,
                                final @NonNull Chat channel,
                                final @NonNull String message,
                                final @NonNull Update update) {
@@ -143,7 +145,7 @@ public final class CommandManager {
         val args = Lists.newArrayList(ArrayUtils.remove(message.split(" "), 0));
 
         if (command != null) {
-            command.execute(channel, sender, args, update);
+            command.execute(user, channel, sender, args, update);
         }
 
     }

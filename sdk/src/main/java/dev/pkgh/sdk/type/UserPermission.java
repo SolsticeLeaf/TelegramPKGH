@@ -5,6 +5,9 @@ package dev.pkgh.sdk.type;
  */
 public enum UserPermission {
 
-    USER, ADMINISTRATOR
+    USER,
+    ADMINISTRATOR;
+
+    final int mask = 1 << ordinal();
 
 }

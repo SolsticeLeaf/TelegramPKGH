@@ -1,6 +1,8 @@
 package dev.pkgh.sdk.commands;
 
+import dev.pkgh.sdk.type.IBotUser;
 import dev.pkgh.sdk.type.UserPermission;
+import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -44,7 +46,8 @@ public interface ICommand {
      * @param sender    discord member instance of sender
      * @param args      arguments of command
      */
-    void execute(final @NotNull Chat channel,
+    void execute(final @NonNull IBotUser user,
+                 final @NotNull Chat channel,
                  final @NotNull User sender,
                  final @NotNull List<String> args,
                  final @NotNull Update update);

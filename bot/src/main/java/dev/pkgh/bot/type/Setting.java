@@ -3,6 +3,7 @@ package dev.pkgh.bot.type;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import lombok.val;
 
 import java.util.Arrays;
 
@@ -42,6 +43,15 @@ public enum Setting {
      */
     public static Setting[] getSettings(final int flags) {
         return Arrays.stream(VALUES).filter(sex -> sex.hasFlag(flags)).toArray(Setting[]::new);
+    }
+
+    public static int createMask(Setting[] settings) {
+        int ret = 0;
+        for (val setting : settings) {
+            ret |= setting.getMask();
+        }
+
+        return ret;
     }
 
 }

@@ -2,6 +2,7 @@ package dev.pkgh.sdk.commands;
 
 import com.google.common.collect.Lists;
 import dev.pkgh.sdk.logging.Logging;
+import dev.pkgh.sdk.type.IBotUser;
 import dev.pkgh.sdk.type.UserPermission;
 import dev.pkgh.sdk.utils.MessageUtil;
 import lombok.*;
@@ -93,16 +94,17 @@ public final class CommandWrapper implements ICommand {
         return executor;
     }
 
-    public void run(final @NonNull User sender,
+    public void run(final @NonNull IBotUser user,
+                    final @NonNull User sender,
                     final @NonNull Chat channel,
                     final @NonNull Update interaction,
                     final @NonNull List<String> args,
                     final @Nullable WrappedCommandExecutor executor) {
         try {
-            //if (!sender.hasPermission(permission)) {
-            //    interaction.reply("У вас нет прав на выполнение этой команды :(").queue();
-            //    return;
-            //}
+            if (user.getPermission() == UserPermission.USER && permission == UserPermission.ADMINISTRATOR) {
+                MessageUtil.sendMessage(channel, "У вас нет прав на выполнение этой команды :(");
+                return;
+            }
 
             if (executor == null) {
                 Logging.IMP.error("No executor found for " + name);
@@ -124,7 +126,7 @@ public final class CommandWrapper implements ICommand {
     }
 
     @Override
-    public void execute(@NotNull Chat channel, @NotNull User sender, @NotNull List<String> args, @NotNull Update update) {
+    public void execute(final @NonNull IBotUser user, @NotNull Chat channel, @NotNull User sender, @NotNull List<String> args, @NotNull Update update) {
         var executor = getExecutor(update.getMessage().getText().replaceAll("/", ""));
 
         args.remove(0); // removing command base
@@ -135,7 +137,7 @@ public final class CommandWrapper implements ICommand {
         var threadExecutor = executor == null ? null : executor.getThreadExecutor();
 
         @NotNull List<String> finalArgs = args; // thanks java 17 (fuck it)
-        val runnable = (Runnable) () -> run(sender, channel, update, finalArgs, executor);
+        val runnable = (Runnable) () -> run(user, sender, channel, update, finalArgs, executor);
 
         if (threadExecutor == null) {
             runnable.run();
